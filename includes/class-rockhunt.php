@@ -157,6 +157,15 @@ class Rockhunt {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		$this->loader->add_action('init', $plugin_admin, 'create_rockhunt_custom_post_types');
+		$this->loader->add_action('init', $plugin_admin, 'create_rockhunt_page');
+		$this->loader->add_action('init', $plugin_admin, 'rockhunt_add_post_type_to_rest');
+		$this->loader->add_action('init', $plugin_admin, 'rockhunt_hide_admin_bar');
+
+		$this->loader->add_action('rest_api_init', $plugin_admin, 'rockhunt_show_custom_fields_in_rest');
+
+		$this->loader->add_filter('use_block_editor_for_post_type', $plugin_admin, 'rockhunt_post_types_use_block_editor', 10, 2);
+
 	}
 
 	/**
@@ -172,6 +181,8 @@ class Rockhunt {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+    $this->loader->add_filter('template_include', $plugin_public, 'rockhunt_template');
 
 	}
 
